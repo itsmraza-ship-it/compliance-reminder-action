@@ -1,0 +1,38 @@
+# Example: run the compliance reminder every Monday at 09:00 UTC.
+# Copy this file into your own repo's .github/workflows/ and set your deadlines.
+name: Compliance deadline check
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"   # Mondays at 09:00 UTC
+  workflow_dispatch:       # lets you run it manually from the Actions tab
+
+permissions:
+  issues: write
+
+jobs:
+  wyoming-annual-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wyoming annual report reminder
+        uses: ./
+        with:
+          state: Wyoming
+          filing: Annual report
+          deadline-date: "2027-04-01"
+          days-before: "45"
+
+  # Duplicate the job above for each deadline you track:
+  # delaware-franchise-tax:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Delaware franchise tax reminder
+  #       uses: ./
+  #       with:
+  #         state: Delaware
+  #         filing: Franchise tax
+  #         deadline-date: "2027-06-01"
+  #         days-before: "45"
